@@ -1,0 +1,58 @@
+@import "./tokens.css";
+
+@theme {
+  --color-ink: #302f2f;
+  --color-ink-soft: #3a3938;
+  --color-teal: #38938e;
+  --color-teal-deep: #2c7a76;
+  --color-beige: #f5eeda;
+  --color-beige-deep: #ede4c8;
+  --color-orange: #efad1f;
+  --color-yellow: #f8dd16;
+
+  --font-display: "Fraunces", serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  --shadow-soft: 0 1px 2px rgba(48, 47, 47, 0.04), 0 8px 24px -12px rgba(48, 47, 47, 0.12);
+  --shadow-lift: 0 20px 40px -20px rgba(48, 47, 47, 0.2), 0 2px 6px rgba(48, 47, 47, 0.06);
+  --shadow-ring: 0 0 0 6px rgba(56, 147, 142, 0.12);
+}
+
+html,
+body {
+  background: var(--et-beige);
+}
+
+.font-display {
+  font-family: var(--et-font-display);
+  font-optical-sizing: auto;
+}
+
+.btn-gradient {
+  background: linear-gradient(100deg, #38938e 0%, #38938e 35%, #efad1f 80%, #f8dd16 100%);
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+  transition:
+    background-position 0.5s ease,
+    box-shadow 0.3s ease,
+    transform 0.15s ease;
+}
+
+.btn-gradient:hover {
+  background-position: 100% 0%;
+}
+
+.fade-in {
+  animation: et-fade 0.4s ease both;
+}
+
+@keyframes et-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
