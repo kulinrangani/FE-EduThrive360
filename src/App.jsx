@@ -12,6 +12,7 @@ import { CounselorMembersPage } from "./pages/CounselorMembersPage.jsx";
 import { QuizInstructionsPage } from "./pages/QuizInstructionsPage.jsx";
 import { QuizAttemptPage } from "./pages/QuizAttemptPage.jsx";
 import { QuizResultPage } from "./pages/QuizResultPage.jsx";
+import { WellnessHubPage } from "./pages/WellnessHubPage.jsx";
 
 function ProtectedRoute({ children, roles }) {
   const { isAuthenticated, loading, user } = useAuth();
@@ -94,6 +95,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute roles={["user"]}>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/wellness-hub"
+        element={
+          <ProtectedRoute roles={["user"]}>
+            <WellnessHubPage />
           </ProtectedRoute>
         }
       />

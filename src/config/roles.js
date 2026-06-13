@@ -14,6 +14,7 @@ export function homePathForRole(role) {
 export const ROLE_MODULES = {
   user: [
     { path: "/home", label: "Home", description: "Your quizzes and wellness" },
+    { path: "/wellness-hub", label: "Wellness Hub", description: "Mindfulness & self-care tools" },
   ],
   org_admin: [
     { path: "/workspace", label: "Workspace", description: "Organization overview & code" },
