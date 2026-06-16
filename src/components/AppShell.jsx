@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink, useNavigate, Outlet } from "react-router-dom";
+import { Modal, Button } from "./UI.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { ROLE_MODULES } from "../config/roles.js";
 
@@ -65,6 +66,7 @@ export function AppShell({ children, title: propTitle, subtitle: propSubtitle, w
   const navigate = useNavigate();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [headerInfo, setHeaderInfo] = useState({ title: "", subtitle: "", wide: false });
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const title = propTitle ?? headerInfo.title;
   const subtitle = propSubtitle ?? headerInfo.subtitle;
@@ -115,7 +117,7 @@ export function AppShell({ children, title: propTitle, subtitle: propSubtitle, w
         <div className="text-[10px] text-beige/50 uppercase tracking-wider font-semibold">{roleLabel}</div>
       </div>
       <button
-        onClick={handleSignOut}
+        onClick={() => setShowConfirm(true)}
         title="Sign Out"
         className="w-9 h-9 rounded-lg hover:bg-white/5 flex items-center justify-center text-beige/60 hover:text-white transition shrink-0"
       >
@@ -231,6 +233,27 @@ export function AppShell({ children, title: propTitle, subtitle: propSubtitle, w
           {children || <Outlet context={{ setHeaderInfo }} />}
         </main>
       </div>
+
+      <Modal
+        open={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        title="Confirm Sign Out"
+        subtitle="Are you sure you want to sign out?"
+        footer={
+          <>
+            <Button variant="ghost" onClick={() => setShowConfirm(false)}>
+              Cancel
+            </Button>
+            <Button variant="danger" onClick={handleSignOut}>
+              Sign out
+            </Button>
+          </>
+        }
+      >
+        <p className="text-sm text-ink/70">
+          You will need to sign in again to access your wellness dashboard, workspace, or team data.
+        </p>
+      </Modal>
 
     </div>
   );
