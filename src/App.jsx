@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation, Outlet, useOutletContext } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext.jsx";
 import { homePathForRole } from "./config/roles.js";
 import { HomePage } from "./pages/HomePage.jsx";
@@ -13,10 +13,12 @@ import { QuizInstructionsPage } from "./pages/QuizInstructionsPage.jsx";
 import { QuizAttemptPage } from "./pages/QuizAttemptPage.jsx";
 import { QuizResultPage } from "./pages/QuizResultPage.jsx";
 import { WellnessHubPage } from "./pages/WellnessHubPage.jsx";
+import { AppShell } from "./components/AppShell.jsx";
 
 function ProtectedRoute({ children, roles }) {
   const { isAuthenticated, loading, user } = useAuth();
   const location = useLocation();
+  const context = useOutletContext();
 
   if (loading) {
     return (
@@ -34,7 +36,7 @@ function ProtectedRoute({ children, roles }) {
     return <Navigate to={homePathForRole(user.role)} replace />;
   }
 
-  return children;
+  return children ? children : <Outlet context={context} />;
 }
 
 function PublicOnly({ children }) {
@@ -90,80 +92,39 @@ function AppRoutes() {
         }
       />
 
+      {/* App Layout wrapping all protected workspace screens */}
       <Route
-        path="/home"
         element={
-          <ProtectedRoute roles={["user"]}>
-            <DashboardPage />
+          <ProtectedRoute>
+            <AppShell />
           </ProtectedRoute>
         }
-      />
-      <Route
-        path="/wellness-hub"
-        element={
-          <ProtectedRoute roles={["user"]}>
-            <WellnessHubPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/quizzes/:quizId"
-        element={
-          <ProtectedRoute roles={["user"]}>
-            <QuizInstructionsPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/quizzes/:quizId/attempt/:attemptId"
-        element={
-          <ProtectedRoute roles={["user"]}>
-            <QuizAttemptPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/results/:attemptId"
-        element={
-          <ProtectedRoute roles={["user"]}>
-            <QuizResultPage />
-          </ProtectedRoute>
-        }
-      />
+      >
+        {/* User-only Screens */}
+        <Route element={<ProtectedRoute roles={["user"]} />}>
+          <Route path="/home" element={<DashboardPage />} />
+          <Route path="/wellness-hub" element={<WellnessHubPage />} />
+          <Route path="/quizzes/:quizId" element={<QuizInstructionsPage />} />
+          <Route path="/quizzes/:quizId/attempt/:attemptId" element={<QuizAttemptPage />} />
+          <Route path="/results/:attemptId" element={<QuizResultPage />} />
+        </Route>
 
-      <Route
-        path="/workspace"
-        element={
-          <ProtectedRoute roles={["org_admin"]}>
-            <OrgAdminWorkspacePage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/team"
-        element={
-          <ProtectedRoute roles={["org_admin"]}>
-            <TeamPage />
-          </ProtectedRoute>
-        }
-      />
+        {/* Org Admin-only Screens */}
+        <Route element={<ProtectedRoute roles={["org_admin"]} />}>
+          <Route path="/workspace" element={<OrgAdminWorkspacePage />} />
+          <Route path="/team" element={<TeamPage />} />
+        </Route>
 
-      <Route
-        path="/reviews"
-        element={
-          <ProtectedRoute roles={["org_counselor", "org_admin"]}>
-            <CounselorReviewsPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/members"
-        element={
-          <ProtectedRoute roles={["org_counselor"]}>
-            <CounselorMembersPage />
-          </ProtectedRoute>
-        }
-      />
+        {/* Shared Org Admin & Counselor Screens */}
+        <Route element={<ProtectedRoute roles={["org_admin", "org_counselor"]} />}>
+          <Route path="/reviews" element={<CounselorReviewsPage />} />
+        </Route>
+
+        {/* Counselor-only Screens */}
+        <Route element={<ProtectedRoute roles={["org_counselor"]} />}>
+          <Route path="/members" element={<CounselorMembersPage />} />
+        </Route>
+      </Route>
 
       <Route path="/welcome" element={<HomePage />} />
       <Route path="*" element={<RootRedirect />} />

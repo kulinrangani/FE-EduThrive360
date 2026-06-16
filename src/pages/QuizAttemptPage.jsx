@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { AppShell } from "../components/AppShell.jsx";
+import { Link, useNavigate, useParams, useOutletContext } from "react-router-dom";
 import { ProgressBar } from "../components/ProgressBar.jsx";
 import { QuestionCard, QuestionNav } from "../components/QuestionCard.jsx";
 import { Card } from "../components/UI.jsx";
@@ -28,6 +27,30 @@ export function QuizAttemptPage() {
   const [saving, setSaving] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+
+  const { setHeaderInfo } = useOutletContext();
+
+  useEffect(() => {
+    if (loading) {
+      setHeaderInfo({
+        title: "Quiz",
+        subtitle: "Loading attempt…",
+        wide: true
+      });
+    } else if (!quiz || !current) {
+      setHeaderInfo({
+        title: "Quiz",
+        subtitle: "",
+        wide: true
+      });
+    } else {
+      setHeaderInfo({
+        title: quiz.title,
+        subtitle: "Answer honestly — there are no wrong answers",
+        wide: true
+      });
+    }
+  }, [loading, quiz, current, setHeaderInfo]);
 
   const questions = useMemo(() => flattenQuestions(quiz), [quiz]);
   const current = questions[index];
@@ -115,25 +138,23 @@ export function QuizAttemptPage() {
 
   if (loading) {
     return (
-      <AppShell title="Quiz" subtitle="Loading attempt…" wide>
-        <p className="text-sm text-ink/50">Loading…</p>
-      </AppShell>
+      <p className="text-sm text-ink/50">Loading…</p>
     );
   }
 
   if (!quiz || !current) {
     return (
-      <AppShell title="Quiz" wide>
+      <>
         <p className="text-sm text-red-600">{error || "No questions in this quiz."}</p>
         <Link to="/home" className="text-sm text-teal mt-4 inline-block">
           ← Back
         </Link>
-      </AppShell>
+      </>
     );
   }
 
   return (
-    <AppShell title={quiz.title} subtitle="Answer honestly — there are no wrong answers" wide>
+    <>
       <ProgressBar current={index + 1} total={questions.length} className="mb-6" />
 
       <Card>
@@ -152,6 +173,6 @@ export function QuizAttemptPage() {
           saving={saving || submitting}
         />
       </Card>
-    </AppShell>
+    </>
   );
 }

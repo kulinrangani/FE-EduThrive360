@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { AppShell } from "../components/AppShell.jsx";
+import { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 import { BreathingVisualizer } from "../components/BreathingVisualizer.jsx";
 
 const WELLNESS_RESOURCES = [
@@ -35,9 +35,18 @@ const WELLNESS_RESOURCES = [
 
 export function WellnessHubPage() {
   const [selectedArticle, setSelectedArticle] = useState(null);
+  const { setHeaderInfo } = useOutletContext();
+
+  useEffect(() => {
+    setHeaderInfo({
+      title: "Wellness Hub",
+      subtitle: "Mindfulness exercises and self-care resources",
+      wide: true
+    });
+  }, [setHeaderInfo]);
 
   return (
-    <AppShell title="Wellness Hub" subtitle="Mindfulness exercises and self-care resources" wide={true}>
+    <>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         {/* Left Column: Breathing Guide */}
@@ -111,6 +120,6 @@ export function WellnessHubPage() {
         </div>
 
       </div>
-    </AppShell>
+    </>
   );
 }

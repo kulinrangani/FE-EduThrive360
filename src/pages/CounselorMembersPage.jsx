@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AppShell } from "../components/AppShell.jsx";
+import { useOutletContext } from "react-router-dom";
 import { RiskBadge } from "../components/RiskBadge.jsx";
 import { StaffResultDetail } from "../components/StaffResultDetail.jsx";
 import { Button, Modal } from "../components/UI.jsx";
@@ -20,6 +20,16 @@ export function CounselorMembersPage() {
   const [selectedResultId, setSelectedResultId] = useState(null);
   const [detail, setDetail] = useState(null);
   const [detailLoading, setDetailLoading] = useState(false);
+
+  const { setHeaderInfo } = useOutletContext();
+
+  useEffect(() => {
+    setHeaderInfo({
+      title: "Members",
+      subtitle: labels.members,
+      wide: false
+    });
+  }, [labels.members, setHeaderInfo]);
 
   const load = useCallback(async () => {
     if (!orgId) return;
@@ -77,7 +87,7 @@ export function CounselorMembersPage() {
   }, [selectedResultId, results, members]);
 
   return (
-    <AppShell title="Members" subtitle={labels.members}>
+    <>
       {loading ? (
         <p className="text-sm text-ink/50">Loading…</p>
       ) : members.length === 0 ? (
@@ -133,6 +143,6 @@ export function CounselorMembersPage() {
           </Button>
         </div>
       </Modal>
-    </AppShell>
+    </>
   );
 }

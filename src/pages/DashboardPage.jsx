@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { AppShell } from "../components/AppShell.jsx";
+import { Link, useOutletContext } from "react-router-dom";
 import { QuizCard } from "../components/QuizCard.jsx";
 import { RiskBadge } from "../components/RiskBadge.jsx";
 import { EmptyState } from "../components/UI.jsx";
@@ -55,6 +54,16 @@ export function DashboardPage() {
   const labels = memberLabels(orgType);
   const memberLabel = user?.memberType === "employee" ? labels.member : labels.member;
 
+  const { setHeaderInfo } = useOutletContext();
+
+  useEffect(() => {
+    setHeaderInfo({
+      title: `Welcome back, ${user?.fullName?.split(" ")[0] ?? "there"}`,
+      subtitle: orgName ? `${memberLabel} at ${orgName}` : memberLabel,
+      wide: true
+    });
+  }, [user, orgName, memberLabel, setHeaderInfo]);
+
   const fetchDashboardData = async () => {
     try {
       const [list, history, moodHistory] = await Promise.all([
@@ -105,11 +114,7 @@ export function DashboardPage() {
     }));
 
   return (
-    <AppShell
-      title={`Welcome back, ${user?.fullName?.split(" ")[0] ?? "there"}`}
-      subtitle={orgName ? `${memberLabel} at ${orgName}` : memberLabel}
-      wide={true}
-    >
+    <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Main Content Columns (2/3) */}
@@ -319,6 +324,6 @@ export function DashboardPage() {
         </div>
 
       </div>
-    </AppShell>
+    </>
   );
 }

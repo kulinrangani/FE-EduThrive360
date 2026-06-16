@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { AppShell } from "../components/AppShell.jsx";
+import { Link, useParams, useOutletContext } from "react-router-dom";
 import { Card } from "../components/UI.jsx";
 import { RiskBadge } from "../components/RiskBadge.jsx";
 import { QuoteCard } from "../components/QuoteCard.jsx";
@@ -32,12 +31,18 @@ export function QuizResultPage() {
 
   const result = payload?.result;
 
+  const { setHeaderInfo } = useOutletContext();
+
+  useEffect(() => {
+    setHeaderInfo({
+      title: "Your results",
+      subtitle: result?.quizTitle ?? "Assessment complete",
+      wide: true
+    });
+  }, [result, setHeaderInfo]);
+
   return (
-    <AppShell
-      title="Your results"
-      subtitle={result?.quizTitle ?? "Assessment complete"}
-      wide
-    >
+    <>
       {loading && <p className="text-sm text-ink/50">Loading results…</p>}
       {error && <p className="text-sm text-red-600">{error}</p>}
 
@@ -66,6 +71,6 @@ export function QuizResultPage() {
           </div>
         </Card>
       )}
-    </AppShell>
+    </>
   );
 }

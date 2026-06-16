@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AppShell } from "../components/AppShell.jsx";
+import { useOutletContext } from "react-router-dom";
 import {
   Avatar,
   Badge,
@@ -167,6 +167,16 @@ export function TeamPage() {
 
   const [confirmDeactivate, setConfirmDeactivate] = useState(null);
 
+  const { setHeaderInfo } = useOutletContext();
+
+  useEffect(() => {
+    setHeaderInfo({
+      title: "Manage counselors",
+      subtitle: `${orgName} · supervisors who review members and quiz results`,
+      wide: true
+    });
+  }, [orgName, setHeaderInfo]);
+
   const load = useCallback(async () => {
     if (!orgId) return;
     setLoading(true);
@@ -272,11 +282,7 @@ export function TeamPage() {
   };
 
   return (
-    <AppShell
-      wide
-      title="Manage counselors"
-      subtitle={`${orgName} · supervisors who review members and quiz results`}
-    >
+    <>
       {error && (
         <div className="mb-4 rounded-xl bg-orange/10 border border-orange/25 px-4 py-3 text-sm text-ink">
           {error}
@@ -525,6 +531,6 @@ export function TeamPage() {
           sign in until you reactivate them. Their history stays in the system.
         </p>
       </Modal>
-    </AppShell>
+    </>
   );
 }

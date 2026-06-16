@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { AppShell } from "../components/AppShell.jsx";
+import { Link, useOutletContext } from "react-router-dom";
 import { RiskBadge } from "../components/RiskBadge.jsx";
 import { Avatar, Badge, Button, Card, cn } from "../components/UI.jsx";
 import { IconUsers } from "../components/Icons.jsx";
@@ -41,6 +40,16 @@ export function OrgAdminWorkspacePage() {
   const memberLabel = org?.type === "corporate" ? "Employees" : "Students";
   const activeCounselors = counselors.filter((c) => c.status !== "inactive");
 
+  const { setHeaderInfo } = useOutletContext();
+
+  useEffect(() => {
+    setHeaderInfo({
+      title: "Organization",
+      subtitle: orgName ?? "Your workspace",
+      wide: true
+    });
+  }, [orgName, setHeaderInfo]);
+
   const copyCode = async () => {
     if (!code) return;
     await navigator.clipboard.writeText(code);
@@ -49,7 +58,7 @@ export function OrgAdminWorkspacePage() {
   };
 
   return (
-    <AppShell wide title="Organization" subtitle={orgName ?? "Your workspace"}>
+    <>
       {error && (
         <div className="mb-4 rounded-xl bg-orange/10 border border-orange/25 px-4 py-3 text-sm text-ink">
           {error}
@@ -184,6 +193,6 @@ export function OrgAdminWorkspacePage() {
           </ul>
         )}
       </Card>
-    </AppShell>
+    </>
   );
 }

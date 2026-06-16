@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { AppShell } from "../components/AppShell.jsx";
+import { useOutletContext } from "react-router-dom";
 import { RiskBadge } from "../components/RiskBadge.jsx";
 import { StaffResultDetail } from "../components/StaffResultDetail.jsx";
 import { Button, Card, Modal, Select } from "../components/UI.jsx";
@@ -28,6 +28,16 @@ export function CounselorReviewsPage() {
   const [detail, setDetail] = useState(null);
   const [detailLoading, setDetailLoading] = useState(false);
   const [detailError, setDetailError] = useState("");
+
+  const { setHeaderInfo } = useOutletContext();
+
+  useEffect(() => {
+    setHeaderInfo({
+      title: "Reviews",
+      subtitle: orgName ? `${orgName} — quiz outcomes` : "Quiz outcomes",
+      wide: true
+    });
+  }, [orgName, setHeaderInfo]);
 
   useEffect(() => {
     let cancelled = false;
@@ -81,7 +91,7 @@ export function CounselorReviewsPage() {
   const highCount = results.filter((r) => r.riskLevel === "High").length;
 
   return (
-    <AppShell wide title="Reviews" subtitle={orgName ? `${orgName} — quiz outcomes` : "Quiz outcomes"}>
+    <>
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <p className="text-sm text-ink/60">
           {results.length} completed assessments
@@ -148,6 +158,6 @@ export function CounselorReviewsPage() {
           </Button>
         </div>
       </Modal>
-    </AppShell>
+    </>
   );
 }

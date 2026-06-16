@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { ROLE_MODULES } from "../config/roles.js";
 
@@ -60,10 +60,15 @@ function getInitials(name) {
     .slice(0, 2);
 }
 
-export function AppShell({ children, title, subtitle }) {
+export function AppShell({ children, title: propTitle, subtitle: propSubtitle, wide: propWide }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [headerInfo, setHeaderInfo] = useState({ title: "", subtitle: "", wide: false });
+
+  const title = propTitle ?? headerInfo.title;
+  const subtitle = propSubtitle ?? headerInfo.subtitle;
+  const wide = propWide ?? headerInfo.wide;
 
   const modules = ROLE_MODULES[user?.role] ?? ROLE_MODULES.user;
   const roleLabel =
@@ -222,8 +227,8 @@ export function AppShell({ children, title, subtitle }) {
         </div>
 
         {/* 4. Page Content (Full width with padding) */}
-        <main className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-8 py-6">
-          {children}
+        <main className={`flex-1 w-full ${wide ? "max-w-7xl" : "max-w-4xl"} mx-auto px-4 md:px-8 py-6`}>
+          {children || <Outlet context={{ setHeaderInfo }} />}
         </main>
       </div>
 

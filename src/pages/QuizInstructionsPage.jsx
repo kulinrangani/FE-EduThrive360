@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { AppShell } from "../components/AppShell.jsx";
+import { Link, useNavigate, useParams, useOutletContext } from "react-router-dom";
 import { Badge, Button, Card } from "../components/UI.jsx";
 import * as quizApi from "../api/quizzes.js";
 import * as attemptApi from "../api/attempts.js";
@@ -12,6 +11,16 @@ export function QuizInstructionsPage() {
   const [loading, setLoading] = useState(true);
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState("");
+
+  const { setHeaderInfo } = useOutletContext();
+
+  useEffect(() => {
+    setHeaderInfo({
+      title: quiz?.title ?? "Quiz",
+      subtitle: "Read before you begin",
+      wide: true
+    });
+  }, [quiz, setHeaderInfo]);
 
   useEffect(() => {
     let cancelled = false;
@@ -51,11 +60,7 @@ export function QuizInstructionsPage() {
   };
 
   return (
-    <AppShell
-      title={quiz?.title ?? "Quiz"}
-      subtitle="Read before you begin"
-      wide
-    >
+    <>
       <Link to="/home" className="text-sm text-teal hover:underline mb-4 inline-block">
         ← Back to quizzes
       </Link>
@@ -85,6 +90,6 @@ export function QuizInstructionsPage() {
           </Button>
         </Card>
       )}
-    </AppShell>
+    </>
   );
 }
