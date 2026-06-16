@@ -16,7 +16,7 @@ export function HomePage() {
     <div className="min-h-svh flex flex-col fade-in">
       <header className="px-4 py-6 max-w-lg mx-auto w-full">
         <p className="text-teal text-sm font-semibold tracking-wide uppercase">
-          EduThrive360
+          EM360
         </p>
         <h1 className="font-display text-3xl sm:text-4xl text-ink mt-1 leading-tight">
           Your wellness journey starts here

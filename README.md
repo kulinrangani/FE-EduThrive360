@@ -1,4 +1,4 @@
-# EduThrive360 User App
+# EM360 User App
 
 End-user and organization staff frontend (React + Vite + Tailwind).
 

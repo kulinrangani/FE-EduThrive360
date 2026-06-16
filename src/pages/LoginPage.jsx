@@ -31,7 +31,7 @@ export function LoginPage() {
     <div className="min-h-svh flex flex-col fade-in px-4 py-8 max-w-lg mx-auto w-full">
       <header>
         <p className="text-teal text-sm font-semibold tracking-wide uppercase">
-          EduThrive360
+          EM360
         </p>
         <h1 className="font-display text-3xl text-ink mt-1">Sign in</h1>
         <p className="text-ink/60 mt-2 text-sm">

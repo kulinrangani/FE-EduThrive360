@@ -129,10 +129,10 @@ export function AppShell({ children, title, subtitle }) {
         {/* Brand/Logo */}
         <div className="px-5 pt-6 pb-5 flex items-center gap-3 shrink-0">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal to-yellow flex items-center justify-center shrink-0 shadow-lift">
-            <span className="font-display text-ink font-bold text-lg">E</span>
+            <span className="font-display text-ink font-bold text-lg">EM</span>
           </div>
           <div>
-            <div className="font-display text-lg font-bold text-white leading-none">EduThrive360</div>
+            <div className="font-display text-lg font-bold text-white leading-none">EM360</div>
             <span className="text-[9px] uppercase tracking-widest text-teal font-bold">Portal</span>
           </div>
         </div>
@@ -169,9 +169,9 @@ export function AppShell({ children, title, subtitle }) {
             {/* Logo */}
             <div className="px-5 pt-6 pb-5 flex items-center gap-3 shrink-0">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal to-yellow flex items-center justify-center shrink-0 shadow-lift">
-                <span className="font-display text-ink font-bold text-lg">E</span>
+                <span className="font-display text-ink font-bold text-lg">EM</span>
               </div>
-              <div className="font-display text-lg font-bold text-white leading-none">EduThrive360</div>
+              <div className="font-display text-lg font-bold text-white leading-none">EM360</div>
             </div>
             {/* Nav Links */}
             <nav className="flex-1 overflow-y-auto">{navLinks}</nav>
@@ -198,7 +198,7 @@ export function AppShell({ children, title, subtitle }) {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <span className="font-display font-bold text-base text-white">EduThrive360</span>
+            <span className="font-display font-bold text-base text-white">EM360</span>
           </div>
 
           {/* Title & Subtitle block on Desktop */}
