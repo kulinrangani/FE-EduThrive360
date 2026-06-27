@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, useNavigate, Outlet } from "react-router-dom";
-import { Modal, Button } from "./UI.jsx";
+import { Modal, Button, Avatar } from "./UI.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { ROLE_MODULES } from "../config/roles.js";
 
@@ -109,9 +109,7 @@ export function AppShell({ children, title: propTitle, subtitle: propSubtitle, w
 
   const sidebarFooter = (
     <div className="border-t border-white/5 p-4 flex items-center gap-3 shrink-0">
-      <div className="w-10 h-10 rounded-full bg-teal-deep text-white flex items-center justify-center font-bold text-sm">
-        {getInitials(user?.fullName)}
-      </div>
+      <Avatar name={user?.fullName || "User"} src={user?.avatarUrl} size={40} />
       <div className="flex-1 min-w-0">
         <div className="text-sm font-semibold truncate text-white">{user?.fullName}</div>
         <div className="text-[10px] text-beige/50 uppercase tracking-wider font-semibold">{roleLabel}</div>

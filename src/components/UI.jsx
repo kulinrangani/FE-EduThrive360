@@ -166,7 +166,21 @@ export function Modal({ open, onClose, title, subtitle, children, footer, width 
   );
 }
 
-export function Avatar({ name, size = 40, tone }) {
+export function Avatar({ name, size = 40, tone, src }) {
+  if (src) {
+    const apiBase = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+    const fullSrc = src.startsWith("data:") || src.startsWith("http://") || src.startsWith("https://")
+      ? src
+      : `${apiBase}${src}`;
+    return (
+      <img
+        src={fullSrc}
+        alt={name}
+        className="inline-block rounded-full object-cover border border-ink/5 shrink-0"
+        style={{ width: size, height: size }}
+      />
+    );
+  }
   const initials = name
     .split(" ")
     .map((s) => s[0])

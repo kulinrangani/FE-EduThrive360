@@ -34,6 +34,79 @@ function formatTime(iso) {
   });
 }
 
+function MoodSparkline({ data }) {
+  if (!data || data.length < 2) return null;
+  const w = 240;
+  const h = 60;
+  const max = 5;
+  const min = 1;
+  const range = max - min;
+
+  // Calculate points
+  const points = data.map((val, idx) => {
+    const x = (idx / (data.length - 1)) * w;
+    const y = h - ((val - min) / range) * (h - 14) - 7;
+    return [x, y];
+  });
+
+  // Build SVG path
+  const pathD = points.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
+  const fillD = `${pathD} L ${w},${h} L 0,${h} Z`;
+
+  return (
+    <svg width="100%" height={h} viewBox={`0 0 ${w} ${h}`} className="overflow-visible">
+      <defs>
+        <linearGradient id="moodFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="var(--color-teal)" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="var(--color-teal)" stopOpacity="0.0" />
+        </linearGradient>
+      </defs>
+      <line x1="0" y1={h - 7} x2={w} y2={h - 7} stroke="rgba(48,47,47,0.06)" strokeWidth="1" strokeDasharray="3,3" />
+      <line x1="0" y1={7} x2={w} y2={7} stroke="rgba(48,47,47,0.06)" strokeWidth="1" strokeDasharray="3,3" />
+      
+      <path d={fillD} fill="url(#moodFill)" />
+      <path d={pathD} fill="none" stroke="var(--color-teal)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      
+      {points.map((p, i) => {
+        const score = data[i];
+        const emojis = ["😔", "😐", "🙂", "😊", "😁"];
+        const emoji = emojis[score - 1] ?? "😐";
+        return (
+          <g key={i} className="group cursor-pointer">
+            <circle
+              cx={p[0]}
+              cy={p[1]}
+              r="4.5"
+              className="fill-teal stroke-white"
+              strokeWidth="2"
+            />
+            <g className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none">
+              <rect
+                x={p[0] - 12}
+                y={p[1] - 26}
+                width="24"
+                height="20"
+                rx="6"
+                fill="var(--color-ink)"
+                className="shadow-soft"
+              />
+              <text
+                x={p[0]}
+                y={p[1] - 13}
+                textAnchor="middle"
+                fontSize="12"
+                alignmentBaseline="middle"
+              >
+                {emoji}
+              </text>
+            </g>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
 export function DashboardPage() {
   const { user } = useAuth();
   const [quizzes, setQuizzes] = useState([]);
@@ -275,6 +348,15 @@ export function DashboardPage() {
               <span>Daily Mood Logs</span>
               <span className="text-[10px] bg-teal/10 text-teal px-2 py-0.5 rounded-full font-medium">History</span>
             </h3>
+            
+            {moods.length > 1 && (
+              <div className="mt-4 p-3 bg-white/40 border border-ink/5 rounded-2xl">
+                <p className="text-[10px] uppercase tracking-wider font-bold text-ink/40 mb-3">Mood Trajectory</p>
+                <div className="h-16 flex items-center justify-center">
+                  <MoodSparkline data={moods.slice(0, 7).reverse().map((m) => m.score)} />
+                </div>
+              </div>
+            )}
             
             {moods.length === 0 ? (
               <p className="text-xs text-ink/40 mt-4 text-center">No mood logs saved yet.</p>
