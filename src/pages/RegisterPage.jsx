@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import { Input } from "../components/UI.jsx";
 
 export function RegisterPage() {
   const { register } = useAuth();
@@ -57,8 +58,8 @@ export function RegisterPage() {
           <label className="text-xs uppercase tracking-wider text-ink/50 font-semibold">
             Full name
           </label>
-          <input
-            className="mt-1.5 w-full h-11 rounded-xl border border-ink/15 px-4 text-sm focus:outline-none focus:border-teal focus:ring-4 focus:ring-teal/10"
+          <Input
+            className="mt-1.5"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             required
@@ -68,9 +69,9 @@ export function RegisterPage() {
           <label className="text-xs uppercase tracking-wider text-ink/50 font-semibold">
             Email
           </label>
-          <input
+          <Input
             type="email"
-            className="mt-1.5 w-full h-11 rounded-xl border border-ink/15 px-4 text-sm focus:outline-none focus:border-teal focus:ring-4 focus:ring-teal/10"
+            className="mt-1.5"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -80,9 +81,9 @@ export function RegisterPage() {
           <label className="text-xs uppercase tracking-wider text-ink/50 font-semibold">
             Password (min 8 characters)
           </label>
-          <input
+          <Input
             type="password"
-            className="mt-1.5 w-full h-11 rounded-xl border border-ink/15 px-4 text-sm focus:outline-none focus:border-teal focus:ring-4 focus:ring-teal/10"
+            className="mt-1.5"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             minLength={8}
@@ -93,8 +94,8 @@ export function RegisterPage() {
           <label className="text-xs uppercase tracking-wider text-ink/50 font-semibold">
             Organization code
           </label>
-          <input
-            className="mt-1.5 w-full h-11 rounded-xl border border-ink/15 px-4 text-sm font-mono uppercase tracking-wider focus:outline-none focus:border-teal focus:ring-4 focus:ring-teal/10"
+          <Input
+            className="mt-1.5 font-mono uppercase tracking-wider"
             value={organizationCode}
             onChange={(e) => setOrganizationCode(e.target.value.toUpperCase())}
             placeholder="e.g. WILO-A1B2C3"

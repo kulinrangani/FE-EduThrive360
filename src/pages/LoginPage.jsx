@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { homePathForRole } from "../config/roles.js";
+import { Input } from "../components/UI.jsx";
 
 export function LoginPage() {
   const { login } = useAuth();
@@ -47,9 +48,9 @@ export function LoginPage() {
           <label className="text-xs uppercase tracking-wider text-ink/50 font-semibold">
             Email
           </label>
-          <input
+          <Input
             type="email"
-            className="mt-1.5 w-full h-11 rounded-xl border border-ink/15 px-4 text-sm focus:outline-none focus:border-teal focus:ring-4 focus:ring-teal/10"
+            className="mt-1.5"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -60,9 +61,9 @@ export function LoginPage() {
           <label className="text-xs uppercase tracking-wider text-ink/50 font-semibold">
             Password
           </label>
-          <input
+          <Input
             type="password"
-            className="mt-1.5 w-full h-11 rounded-xl border border-ink/15 px-4 text-sm focus:outline-none focus:border-teal focus:ring-4 focus:ring-teal/10"
+            className="mt-1.5"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
