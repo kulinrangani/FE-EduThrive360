@@ -30,6 +30,9 @@ export function QuizAttemptPage() {
 
   const { setHeaderInfo } = useOutletContext();
 
+  const questions = useMemo(() => flattenQuestions(quiz), [quiz]);
+  const current = questions[index];
+
   useEffect(() => {
     if (loading) {
       setHeaderInfo({
@@ -51,9 +54,6 @@ export function QuizAttemptPage() {
       });
     }
   }, [loading, quiz, current, setHeaderInfo]);
-
-  const questions = useMemo(() => flattenQuestions(quiz), [quiz]);
-  const current = questions[index];
 
   const load = useCallback(async () => {
     setLoading(true);
