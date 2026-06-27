@@ -127,10 +127,9 @@ export function AppShell({ children, title: propTitle, subtitle: propSubtitle, w
   );
 
   return (
-    <div className="min-h-screen flex bg-beige fade-in">
-      
-      {/* 1. Desktop Left Sidebar */}
-      <aside className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 bg-ink text-beige border-r border-white/5 z-20 sticky top-0 h-screen">
+    <>
+     {/* 1. Desktop Left Sidebar */}
+      <aside className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 md:left-0 bg-ink text-beige border-r border-white/5 z-20 h-screen max-h-screen">
         {/* Brand/Logo */}
         <div className="px-5 pt-6 pb-5 flex items-center gap-3 shrink-0">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal to-yellow flex items-center justify-center shrink-0 shadow-lift">
@@ -148,6 +147,9 @@ export function AppShell({ children, title: propTitle, subtitle: propSubtitle, w
         {/* User Footer */}
         {sidebarFooter}
       </aside>
+    <div className="min-h-screen flex bg-beige fade-in">
+      
+     
 
       {/* 2. Mobile Drawer Navigation */}
       {isMobileOpen && (
@@ -254,5 +256,7 @@ export function AppShell({ children, title: propTitle, subtitle: propSubtitle, w
       </Modal>
 
     </div>
+    </>
+
   );
 }
