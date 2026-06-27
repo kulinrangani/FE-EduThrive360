@@ -188,6 +188,34 @@ export function DashboardPage() {
 
   return (
     <>
+      {results[0]?.riskLevel === "High" && (
+        <div className="bg-gradient-to-r from-red-500/10 via-orange/5 to-transparent border border-red-500/15 rounded-2xl p-5 mb-6 flex flex-col md:flex-row items-center justify-between gap-6 fade-in">
+          <div className="flex items-center gap-4">
+            <span className="text-3xl shrink-0">🤝</span>
+            <div>
+              <h3 className="font-semibold text-ink text-sm">We are here for you</h3>
+              <p className="text-xs text-ink/70 mt-1 leading-relaxed">
+                Your recent assessment indicates you might be going through a challenging time. Please remember that seeking help is a sign of strength. Our support network and organization counselors are always here to talk.
+              </p>
+            </div>
+          </div>
+          <div className="flex gap-2.5 shrink-0 w-full md:w-auto justify-end">
+            <Link
+              to="/wellness-hub"
+              className="px-4 py-2 text-xs font-semibold rounded-xl bg-white hover:bg-beige-deep border border-ink/15 text-ink transition shadow-soft"
+            >
+              Distress Resources
+            </Link>
+            <a
+              href="tel:1-800-273-8255"
+              className="px-4 py-2 text-xs font-bold rounded-xl text-white bg-red-600 hover:bg-red-700 transition shadow-soft"
+            >
+              Crisis Hotline
+            </a>
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Main Content Columns (2/3) */}

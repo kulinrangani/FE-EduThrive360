@@ -92,6 +92,28 @@ export function CounselorReviewsPage() {
 
   return (
     <>
+      {highCount > 0 && (
+        <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-5 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 fade-in">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">🚨</span>
+            <div>
+              <h4 className="font-semibold text-ink text-sm">Action Required: {highCount} High Risk Flag(s)</h4>
+              <p className="text-xs text-ink/75 mt-0.5">
+                We've auto-detected high-risk assessment outcomes within your organization. Please review these logs immediately.
+              </p>
+            </div>
+          </div>
+          {riskFilter !== "High" && (
+            <button
+              onClick={() => setRiskFilter("High")}
+              className="px-4 py-2 text-xs font-bold rounded-xl bg-red-600 hover:bg-red-700 text-white transition shadow-soft shrink-0"
+            >
+              Filter High Risk Only
+            </button>
+          )}
+        </div>
+      )}
+
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <p className="text-sm text-ink/60">
           {results.length} completed assessments
